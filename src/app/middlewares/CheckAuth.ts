@@ -1,0 +1,60 @@
+
+import { NextFunction, Request, Response } from "express"
+import jwt, { JwtPayload } from "jsonwebtoken"
+import { envVars } from "../Config/env"
+import httpStatus from 'http-status-codes';
+import { User } from "../../Modules/User/User.model";
+import { isActive } from "../../Modules/User/User.interface";
+import AppError from "../errorHelper/AppError";
+
+
+export const verifyAuth = (...authRoles: string[]) => async (req: Request, res: Response, next: NextFunction) => {
+
+     try {
+          const accesToken = req.headers.authorization || req.cookies.accessToken
+
+          console.log("Token from cookie:", req.cookies.accessToken);
+          console.log("Token from header:", req.headers.authorization);
+
+
+          if (!accesToken) {
+               throw new AppError(403, "No token recieved")
+          }
+          const verifyToken = jwt.verify(accesToken, envVars.jwt_access_secret) as JwtPayload
+
+          const isUserExist = await User.findOne({ email: verifyToken.email })
+
+          console.log("from check auth", isUserExist)
+
+          if (isUserExist?.isActive === isActive.BLOCKED) {
+               throw new AppError(httpStatus.BAD_REQUEST, "USER  is blocked")
+          }
+          if (isUserExist?.isDeleted) {
+               throw new AppError(httpStatus.BAD_REQUEST, "USER  is deleted")
+          }
+
+          if (!isUserExist?.isVerified) {
+               throw new AppError(httpStatus.BAD_REQUEST, "User is not verified")
+          }
+
+          if (isUserExist?.isActive === isActive.INACTIVE) {
+               throw new AppError(httpStatus.BAD_REQUEST, "USER  is inactive")
+          }
+
+
+          if (!authRoles.includes(verifyToken.role)) {
+               throw new AppError(403, "Permission Denied")
+          }
+
+          req.user = verifyToken
+
+          console.log(verifyToken)
+
+          next()
+     }
+
+     catch (error) {
+          next(error)
+     }
+
+}
