@@ -1,0 +1,22 @@
+
+
+import { Router } from "express";
+import { Role } from "../User/User.interface";
+import { PaymentController } from "./Payment.controller";
+import { verifyAuth } from "../../app/middlewares/CheckAuth";
+
+
+
+const router =Router()
+
+
+router.post('/init-payment/:bookingId',PaymentController.initPayment)
+router.post('/success',PaymentController.successPayment)
+router.post('/fail',PaymentController.failPayment)
+router.post('/cancel',PaymentController.cancelPayment)
+router.get('/invoice/:paymentId',verifyAuth(...Object.values(Role)),PaymentController.getInvoiceDownloadUrl)
+router.post('/validate-payment',PaymentController.validatePayment)
+
+
+
+export const PaymentRoute= router

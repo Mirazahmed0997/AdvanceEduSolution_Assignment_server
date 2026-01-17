@@ -47,7 +47,7 @@ app.use('/api/v1', router)
 app.get('/',(req:Request,res:Response)=>
 {
     res.status(200).json({
-        message: "welcome To Tour management"
+        message: "welcome To management system"
     })
 })
 

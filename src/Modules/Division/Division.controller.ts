@@ -1,0 +1,107 @@
+import { NextFunction, Request, Response } from "express"
+import { DivisionService } from "./Division.service"
+import httpStatus from "http-status-codes"
+import { Idivision } from "./Division.interface"
+import { catchAsynch } from "../../app/Utils/CatchAsync"
+import { sendResponse } from "../../app/Utils/sendResponse"
+
+
+
+
+
+const createDivision = catchAsynch(async (req: Request, res: Response, next: NextFunction) => {
+
+
+  req.body = JSON.parse(req.body.data)
+  const payload: Idivision = {
+    ...req.body,
+    thumnail: req.file?.path
+  }
+  const result = await DivisionService.createDivision(payload)
+
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.CREATED,
+    message: "Division Create successfully",
+    data: result,
+  })
+})
+
+
+
+const getDivision = catchAsynch(async (req: Request, res: Response, next: NextFunction) => {
+  const query = req.query
+  const divisions = await DivisionService.getAllDivisions(query as Record<string, string>)
+
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.CREATED,
+    message: "Get all Division successfully",
+    data: divisions,
+  })
+})
+
+
+
+const getSingleDivision = catchAsynch(async (req: Request, res: Response, next: NextFunction) => {
+
+
+  const slug = req.params.slug as string
+  console.log(slug)
+  const divisions = await DivisionService.SingleDivision(slug)
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.CREATED,
+    message: "Get single Division successfully",
+    data: divisions,
+  })
+})
+
+
+const updateDivision = catchAsynch(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { id } = req.params; 
+    const payload: Idivision = {
+      ...req.body,
+      thumnail: req.file?.path
+    }
+    const updatedDivision = await DivisionService.updateDivision(id as string, payload);
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK, // use 200 for update
+      message: "Division updated successfully",
+      data: updatedDivision,
+    });
+  }
+);
+
+const deleteDivision = catchAsynch(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { id } = req.params; // ✅ get division ID from URL
+
+    const deletedDivision = await DivisionService.deleteDivision(id as string);
+
+    // ✅ send proper response
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK, // use 200 for update
+      message: "Division deleted successfully",
+      data: deleteDivision,
+    });
+  }
+);
+
+
+
+
+export const divisionControllers = {
+  createDivision,
+  getDivision,
+  getSingleDivision,
+  updateDivision,
+  deleteDivision
+}

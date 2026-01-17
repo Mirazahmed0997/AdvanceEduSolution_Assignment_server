@@ -34,8 +34,6 @@ import { sendResponse } from "../../app/Utils/sendResponse";
     req.body = JSON.parse(req.body.data)
     const userId= req.params.id
     
-    // const token= req.headers.authorization
-    // const verifiedToken = verifyToken(token as string,envVars.jwt_access_secret) as JwtPayload
 
 
 
