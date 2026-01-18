@@ -13,10 +13,21 @@ Key features:
 Role-based access: User, Admin, Super Admin(JWT Authentication)
 Secure authentication with Email/Password + Google OAuth (Passport.js + Google Cloud)
 OTP verification & booking confirmation emails powered by Redis
-Online payment integration with SSLCommerz
 Responsive UI built with ShadCN components and Tailwind CSS
 Admin panel: Create, update, delete tours, tour types, and divisions
 Super Admin: Full admin management
+
+
+>>>>>>>
+**Payment Getway:**
+
+Online payment integration with SSLCommerz, After creating the booking there will be a payment link this >>>>>>>
+
+ "paymentUrl": "https://sandbox.sslcommerz.com/gwprocess/v3/gw.php?Q=PAY&SESSIONKEY=31981B27C378A51BCA825F6C84746C17"
+  }
+This url will routed to the sslcommerce payment getway page, So click the url to pay for the booking.
+
+>>>>>>>
 
 
 API endpoints: 
