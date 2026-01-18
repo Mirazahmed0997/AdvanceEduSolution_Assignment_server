@@ -48,9 +48,9 @@ const getDivision = catchAsynch(async (req: Request, res: Response, next: NextFu
 const getSingleDivision = catchAsynch(async (req: Request, res: Response, next: NextFunction) => {
 
 
-  const slug = req.params.slug as string
-  console.log(slug)
-  const divisions = await DivisionService.SingleDivision(slug)
+  const {id} = req.params
+  console.log(id)
+  const divisions = await DivisionService.SingleDivision(id as string)
 
   sendResponse(res, {
     success: true,

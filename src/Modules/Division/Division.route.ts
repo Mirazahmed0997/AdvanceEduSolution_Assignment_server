@@ -14,7 +14,7 @@ router.post('/create',
 // validateRequest(createDivisionZodSchema),
 divisionControllers.createDivision)
 router.get('/',divisionControllers.getDivision)
-router.get('/:slug',divisionControllers.getSingleDivision)
+router.get('/:id',divisionControllers.getSingleDivision)
 
 router.patch('/:id',verifyAuth(Role.ADMIN,Role.SUPER_ADMIN),
 multerUpload.single("file"),

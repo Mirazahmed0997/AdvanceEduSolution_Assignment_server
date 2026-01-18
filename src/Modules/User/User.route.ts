@@ -17,8 +17,8 @@ const router =Router()
 
 
 router.post('/register',
-    multerUpload.single("file"),
-    validateRequest(createUserZodSchema),
+    // multerUpload.single("file"),
+    // validateRequest(createUserZodSchema),
     userControllers.createUser)
 
 router.get('/AllUsers',verifyAuth(Role.ADMIN,Role.SUPER_ADMIN),userControllers.getAllUsers)

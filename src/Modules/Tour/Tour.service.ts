@@ -10,6 +10,11 @@ import httpStatus from 'http-status-codes';
 // Tour Type Services
 
 const createTourType = async (payload: ITourType) => {
+
+
+    // console.log(payload)
+
+
     const { name } = payload
     const isTourTypeExist = await TourType.findOne({ name })
     if (isTourTypeExist) {
@@ -20,8 +25,7 @@ const createTourType = async (payload: ITourType) => {
 
     const tourType = TourType.create(
         {
-
-            name,
+            name
         }
 
     )
