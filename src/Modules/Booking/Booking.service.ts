@@ -34,7 +34,7 @@ const createBooking = async (payload: Partial<Ibooking>, userId: string) => {
 
 
     if (!user?.phone || !user?.address) {
-      throw new AppError(httpStatus.BAD_REQUEST, "Please Update your Profile to book tour")
+      throw new AppError(httpStatus.BAD_REQUEST, "Please Update your Phone and address to book tour")
     }
 
     const tour = await Tour.findById(payload.tour).select("costFrom")

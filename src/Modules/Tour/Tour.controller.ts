@@ -10,10 +10,11 @@ import { catchAsynch } from "../../app/Utils/CatchAsync";
 
 
 const createTourType = catchAsynch(async (req: Request, res: Response, next: NextFunction) => {
+ 
   const tourType = await TourTypeService.createTourType(req.body)
 
-
-
+  console.log(req.body)
+ 
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.CREATED,

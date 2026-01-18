@@ -24,7 +24,7 @@ export const verifyAuth = (...authRoles: string[]) => async (req: Request, res: 
 
           const isUserExist = await User.findOne({ email: verifyToken.email })
 
-          console.log("from check auth", isUserExist)
+          // console.log("from check auth", isUserExist)
 
           if (isUserExist?.isActive === isActive.BLOCKED) {
                throw new AppError(httpStatus.BAD_REQUEST, "USER  is blocked")
